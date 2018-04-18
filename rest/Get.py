@@ -1,8 +1,5 @@
 import requests
-from serialReader.SerialReader import *
-from entities.DataEntity import *
 import json
-import multitasking
 
 baseUrl = "http://localhost:8090/"
 
@@ -12,8 +9,8 @@ def get_stations():
     return r.text
 
 
-def get_data_of_station(token, station_id):
-    return json.loads(get_request_base(token, "stations/" + str(station_id)).text)
+def get_data_entity_of_station(token, station_id):
+    return json.loads(get_request_base(token, str(station_id)).text)
 
 
 def get_user_id_from_code(token, rifd):
@@ -23,6 +20,7 @@ def get_user_id_from_code(token, rifd):
 def is_station_available(token, station_id):
     dict_res = json.loads(get_request_base(token, "stations/" + str(station_id)).text)
     return dict_res["available"]
+
 
 def get_request_base(token, variable):
     headers = {

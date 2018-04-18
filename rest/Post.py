@@ -1,6 +1,4 @@
 import requests
-from serialReader.SerialReader import *
-from entities.DataEntity import *
 import json
 
 # http://docs.python-requests.org/en/latest/
