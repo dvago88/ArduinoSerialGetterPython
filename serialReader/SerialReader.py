@@ -9,30 +9,32 @@ import subprocess
 import time
 import RPi.GPIO as GPIO
 
-
-
 # https://pythonhosted.org/pyserial/shortintro.html#opening-serial-ports
 
 
 ser = serial.Serial('/dev/ttyACM0', 9600)
-#ser = serial.Serial('COM5', 9600)
+# ser = serial.Serial('COM5', 9600)
 dict_de_estaciones = {}
-GPIO.setmode (GPIO.BCM)
+GPIO.setmode(GPIO.BCM)
 
-MATRIX = [ [1,2,3,4],
-           [5,6,7,8],
-           [9,10,11,12],
-           [13,14,15,16]]
+MATRIX = [[1, 2, 3, 4],
+          [5, 6, 7, 8],
+          [9, 10, 11, 12],
+          [13, 14, 15, 16]]
 
-ROW =   [4,14,15,17]
-COL = [18,27,22,23]
+ROW = [4, 14, 15, 17]
+COL = [18, 27, 22, 23]
 for j in range(4):
     GPIO.setup(COL[j], GPIO.OUT)
     GPIO.output(COL[j], 1)
 
-for i in range (4):
-    GPIO.setup(ROW[i], GPIO.IN, pull_up_down = GPIO.PUD_UP)
+for i in range(4):
+    GPIO.setup(ROW[i], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
+
+# ----------------------------------------------------------
+# -                    SERIAL READER                       -
+# ----------------------------------------------------------
 
 def readSerial():
     while True:
@@ -94,26 +96,25 @@ def update_stations_dict_from_server():
     for station in array_of_stations:
         dict_de_estaciones[station["id"]] = station["available"]
 
+
 # ----------------------------------------------------------
 # -                    PAD READER                          -
 # ----------------------------------------------------------        
 
-def read_number_from_pad():    
+def read_number_from_pad():
     try:
-        while(True):
-            for j in range (4):
-                GPIO.output(COL[j],0)
+        while (True):
+            for j in range(4):
+                GPIO.output(COL[j], 0)
                 for i in range(4):
-                        if GPIO.input (ROW[i]) == 0:
-                            print(MATRIX[i][j])                            
-                            time.sleep(1)
-                            return MATRIX[i][j]
-                            while (GPIO.input(ROW[i]) == 0):
-                                pass
+                    if GPIO.input(ROW[i]) == 0:
+                        print(MATRIX[i][j])
+                        return MATRIX[i][j]
 
-                GPIO.output(COL[j],1)
+                GPIO.output(COL[j], 1)
     except KeyboardInterrupt:
         GPIO.cleanup()
+
 
 # ----------------------------------------------------------
 # -                    RFID READER                         -

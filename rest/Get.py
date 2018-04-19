@@ -1,12 +1,12 @@
 import requests
 import json
 
-#baseUrl = "http://localhost:8090/"
+# baseUrl = "http://localhost:8090/"
 baseUrl = "https://aqueous-temple-46001.herokuapp.com/"
 
 
 def get_stations():
-    r = requests.get("https://aqueous-temple-46001.herokuapp.com/stations")
+    r = requests.get(baseUrl + "stations")
     return r.text
 
 
