@@ -2,11 +2,12 @@ import requests
 import json
 
 # http://docs.python-requests.org/en/latest/
-baseUrl = "http://localhost:8090/"
+#baseUrl = "http://localhost:8090/"
+baseUrl = "https://aqueous-temple-46001.herokuapp.com/"
 
 def login():
     credentials = (('username', 'raspberry'), ('password', 'raspberry'))
-    res = requests.post('http://localhost:8090/perform_login', data=credentials)
+    res = requests.post('https://aqueous-temple-46001.herokuapp.com/perform_login', data=credentials)
     dictToken = json.loads(res.text)
     token = dictToken["jws"]
     return token
@@ -32,4 +33,5 @@ def post_base(token, data, url_complement):
         "Content-Type": "application/json"
     }
     res = requests.post(url, headers=headers, data=data)
+    print(res.text)
     return res.text
