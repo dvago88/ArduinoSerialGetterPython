@@ -6,16 +6,21 @@ baseUrl = "https://aqueous-temple-46001.herokuapp.com/"
 
 
 def get_stations():
-    r = requests.get(baseUrl + "stations")
+    r = requests.get(baseUrl + "stations/")
     return r.text
 
 
 def get_data_entity_of_station(token, station_id):
-    return json.loads(get_request_base(token, str(station_id)).text)
+    return json.loads(get_request_base(token, "data/" + str(station_id)).text)
 
 
 def get_user_id_from_code(token, rifd):
-    return get_request_base(token, "user/code/" + str(rifd)).text
+    user_dict = json.loads(get_request_base(token, "user/code/" + str(rifd)).text)
+    try:
+        user_dict["id"]
+        return user_dict
+    except KeyError:
+        return {"id":-1}
 
 
 def is_station_available(token, station_id):

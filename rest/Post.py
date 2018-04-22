@@ -15,7 +15,7 @@ def login():
 
 
 def post_data_entity(token, data):
-    return post_base(token, data, "")
+    return post_base(token, data, "data/")
 
 
 def post_historial(token, data):
